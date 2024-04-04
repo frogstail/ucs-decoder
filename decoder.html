@@ -60,376 +60,142 @@ function decodeText() {
   const ch_titlo = '\u2DF1';
   const yerok = '\u033E';
 
-  for (let i = 0; i < input.length; i++) {
-    let char = input[i];
+  const ucs_table = {
+    '*': '꙳',
+    '+': v_titlo + pokrytie,
+    '0': 'о' + oxia,
+    '1': oxia,
+    '~': oxia,
+    '2': varia,
+    '@': varia,
+    '#': psili,
+    '3': psili,
+    '$': psili + oxia,
+    '4': psili + oxia,
+    '%': psili + varia,
+    '5': psili + varia,
+    '6': kamora,
+    '^': kamora,
+    '&': titlo,
+    '7': titlo,
+    '\\': titlo,
+    '8': yerok,
+    '_': yerok,
+    '9': 'ж' + titlo,
+    '<': h_titlo,
+    '=': n_titlo + pokrytie,
+    '>': r_titlo + pokrytie,
+    '?': ch_titlo + pokrytie,
+    'A': 'а' + varia,
+    'a': 'а' + oxia,
+    'B': 'ѣ' + kamora,
+    'b': o_titlo + pokrytie,
+    'C': s_titlo + pokrytie,
+    'c': s_titlo + pokrytie,
+    'D': 'д' + s_titlo + pokrytie,
+    'd': d_titlo,
+    'E': 'е' + varia,
+    'e': 'е' + oxia,
+    'F': 'Ѳ',
+    'f': 'ѳ',
+    'G': 'г' + titlo,
+    'g': g_titlo + pokrytie,
+    'H': 'ѡ' + oxia,
+    'h': 'ы' + oxia,
+    'I': 'І',
+    'i': 'і',
+    'J': 'і' + varia,
+    'j': 'і' + oxia,
+    'K': 'Ꙗ' + psili,
+    'k': 'ꙗ' + psili,
+    'L': 'л' + d_titlo,
+    'l': 'л' + titlo,
+    'M': 'Ѷ',
+    'm': 'ѷ',
+    'N': 'Ѻ' + psili,
+    'n': 'ѻ' + psili,
+    'O': 'Ѻ',
+    'o': 'ѻ',
+    'P': 'Ѱ',
+    'p': 'ѱ',
+    'Q': 'Ѽ',
+    'q': 'ѽ',
+    'R': 'р' + titlo,
+    'r': 'р' + s_titlo + pokrytie,
+    'S': 'ѧ' + varia,
+    's': 'ѧ' + oxia,
+    'T': 'Ѿ',
+    't': 'ѿ',
+    'U': 'Ѹ',
+    'u': 'ѹ',
+    'V': 'Ѵ',
+    'v': 'ѵ',
+    'W': 'Ѡ',
+    'w': 'ѡ',
+    'X': 'Ѯ',
+    'x': 'ѯ',
+    'Y': 'ꙋ' + varia,
+    'y': 'ꙋ' + oxia,
+    'Z': 'Ѧ',
+    'z': 'ѧ',
+    '{': 'ꙋ' + kamora,
+    '|': 'ѧ' + psili + varia,
+    '}': 'и' + titlo,
+    'Ђ': 'ѵ' + oxia,
+    'ђ': 'ѵ' + g_titlo + pokrytie,
+    'Ѓ': 'А' + psili + oxia,
+    'ѓ': 'а' + psili + oxia,
+    '…': 'ѯ' + titlo,
+    '†': 'а' + kamora,
+    '‡': 'і' + kamora,
+    '€': z_titlo,
+    '‰': 'ѧ' + kamora,
+    'Љ': 'Ѧ' + psili,
+    'љ': 'ѧ' + psili,
+    '•': zh_titlo,
+    '™': 'т' + titlo,
+    '‹': 'і' + titlo,
+    '›': 'ѵ' + kamora,
+    'Њ': 'Ѡ' + psili,
+    'њ': 'ѡ' + psili,
+    'Ќ': 'Ѹ' + psili + oxia,
+    'ќ': 'ѹ' + psili + oxia,
+    'Ћ': 'Ꙗ' + psili + oxia,
+    'ћ': 'ꙗ' + psili + oxia,
+    'Џ': 'Ѻ' + psili + oxia,
+    'џ': 'ѻ' + psili + oxia,
+    'Ў': 'Ѹ' + psili,
+    'ў': 'ѹ' + psili,
+    'Ј': 'І' + psili + oxia,
+    'ј': 'і' + psili + oxia,
+    '¤': '҂',
+    'Ґ': 'А' + psili,
+    'ґ': 'а' + psili,
+    '¦': 'х' + titlo,
+    '§': 'ч' + titlo,
+    'Ё': 'ѣ' + varia,
+    'ё': 'ѣ' + oxia,
+    '©': 'с' + titlo,
+    '®': 'Р' + d_titlo,
+    'Ї': 'І' + psili,
+    'ї': 'і' + psili,
+    '°': kavyka,
+    '±': 'ꙗ' + psili + varia,
+    'і': 'ї',
+    'µ': 'у',
+    '№': 'а' + titlo,
+    'У': 'Ꙋ',
+    'у': 'ꙋ',
+    'Э': 'Ѣ',
+    'э': 'ѣ',
+    'Я': 'Ꙗ',
+    'я': 'ꙗ',
+  };
 
-    switch (char)
-    {
-    case '*':
-      out += '꙳';
-      break;
-    case '+':
-      out += v_titlo + pokrytie;
-      break;
-    case '+':
-      out += v_titlo + pokrytie;
-      break;
-    case '0':
-      out += 'о' + oxia;
-      break;
-    case '1':
-    case '~':
-      out += oxia;
-      break;
-    case '2':
-    case '@':
-      out += varia;
-      break;
-    case '#':
-    case '3':
-      out += psili;
-      break;
-    case '$':
-    case '4':
-      out += psili + oxia;
-      break;
-    case '%':
-    case '5':
-      out += psili + varia;
-      break;
-    case '6':
-    case '^':
-      out += kamora;
-      break;
-    case '&':
-    case '7':
-    case '\\':
-      out += titlo;
-      break;
-    case '8':
-    case '_':
-      out += yerok;
-      break;
-    case '9':
-      out += 'ж' + titlo;
-      break;
-    case '<':
-      out += h_titlo;
-      break;
-    case '=':
-      out += n_titlo + pokrytie;
-      break;
-    case '>':
-      out += r_titlo + pokrytie;
-      break;
-    case '?':
-      out += ch_titlo + pokrytie;
-      break;
-    case 'A':
-      out += 'а' + varia;
-      break;
-    case 'a':
-      out += 'а' + oxia;
-      break;
-    case 'B':
-      out += 'ѣ' + kamora;
-      break;
-    case 'b':
-      out += o_titlo + pokrytie;
-      break;
-    case 'C':
-    case 'c':
-      out += s_titlo + pokrytie;
-      break;
-    case 'D':
-      out += 'д' + s_titlo + pokrytie;
-      break;
-    case 'd':
-      out += d_titlo;
-      break;
-    case 'E':
-      out += 'е' + varia;
-      break;
-    case 'e':
-      out += 'е' + oxia;
-      break;
-    case 'F':
-      out += 'Ѳ';
-      break;
-    case 'f':
-      out += 'ѳ';
-      break;
-    case 'G':
-      out += 'г' + titlo;
-      break;
-    case 'g':
-      out += g_titlo + pokrytie;
-      break;
-    case 'H':
-      out += 'ѡ' + oxia;
-      break;
-    case 'h':
-      out += 'ы' + oxia;
-      break;
-    case 'I':
-      out += 'І';
-      break;
-    case 'i':
-      out += 'і';
-      break;
-    case 'J':
-      out += 'і' + varia;
-      break;
-    case 'j':
-      out += 'і' + oxia;
-      break;
-    case 'K':
-      out += 'Ꙗ' + psili;
-      break;
-    case 'k':
-      out += 'ꙗ' + psili;
-      break;
-    case 'L':
-      out += 'л' + d_titlo;
-      break;
-    case 'l':
-      out += 'л' + titlo;
-      break;
-    case 'M':
-      out += 'Ѷ';
-      break;
-    case 'm':
-      out += 'ѷ';
-      break;
-    case 'N':
-      out += 'Ѻ' + psili;
-      break;
-    case 'n':
-      out += 'ѻ' + psili;
-      break;
-    case 'O':
-      out += 'Ѻ';
-      break;
-    case 'o':
-      out += 'ѻ';
-      break;
-    case 'P':
-      out += 'Ѱ';
-      break;
-    case 'p':
-      out += 'ѱ';
-      break;
-    case 'Q':
-      out += 'Ѽ';
-      break;
-    case 'q':
-      out += 'ѽ';
-      break;
-    case 'R':
-      out += 'р' + titlo;
-      break;
-    case 'r':
-      out += 'р' + s_titlo + pokrytie;
-      break;
-    case 'S':
-      out += 'ѧ' + varia;
-      break;
-    case 's':
-      out += 'ѧ' + oxia;
-      break;
-    case 'T':
-      out += 'Ѿ';
-      break;
-    case 't':
-      out += 'ѿ';
-      break;
-    case 'U':
-      out += 'Ѹ';
-      break;
-    case 'u':
-      out += 'ѹ';
-      break;
-    case 'V':
-      out += 'Ѵ';
-      break;
-    case 'v':
-      out += 'ѵ';
-      break;
-    case 'W':
-      out += 'Ѡ';
-      break;
-    case 'w':
-      out += 'ѡ';
-      break;
-    case 'X':
-      out += 'Ѯ';
-      break;
-    case 'x':
-      out += 'ѯ';
-      break;
-    case 'Y':
-      out += 'ꙋ' + varia;
-      break;
-    case 'y':
-      out += 'ꙋ' + oxia;
-      break;
-    case 'Z':
-      out += 'Ѧ';
-      break;
-    case 'z':
-      out += 'ѧ';
-      break;
-    case '{':
-      out += 'ꙋ' + kamora;
-      break;
-    case '|':
-      out += 'ѧ' + psili + varia;
-      break;
-    case '}':
-      out += 'и' + titlo;
-      break;
-    case 'Ђ':
-      out += 'ѵ' + oxia;
-      break;
-    case 'ђ':
-      out += 'ѵ' + g_titlo + pokrytie;
-      break;
-    case 'Ѓ':
-      out += 'А' + psili + oxia;
-      break;
-    case 'ѓ':
-      out += 'а' + psili + oxia;
-      break;
-    case '…':
-      out += 'ѯ' + titlo;
-      break;
-    case '†':
-      out += 'а' + kamora;
-      break;
-    case '‡':
-      out += 'і' + kamora;
-      break;
-    case '€':
-      out += z_titlo;
-      break;
-    case '‰':
-      out += 'ѧ' + kamora;
-      break;
-    case 'Љ':
-      out += 'Ѧ' + psili;
-      break;
-    case 'љ':
-      out += 'ѧ' + psili;
-      break;
-    case '•':
-      out += zh_titlo;
-      break;
-    case '™':
-      out += 'т' + titlo;
-      break;
-    case '‹':
-      out += 'і' + titlo;
-      break;
-    case '›':
-      out += 'ѵ' + kamora;
-      break;
-    case 'Њ':
-      out += 'Ѡ' + psili;
-      break;
-    case 'њ':
-      out += 'ѡ' + psili;
-      break;
-    case 'Ќ':
-      out += 'Ѹ' + psili + oxia;
-      break;
-    case 'ќ':
-      out += 'ѹ' + psili + oxia;
-      break;
-    case 'Ћ':
-      out += 'Ꙗ' + psili + oxia;
-      break;
-    case 'ћ':
-      out += 'ꙗ' + psili + oxia;
-      break;
-    case 'Џ':
-      out += 'Ѻ' + psili + oxia;
-      break;
-    case 'џ':
-      out += 'ѻ' + psili + oxia;
-      break;
-    case 'Ў':
-      out += 'Ѹ' + psili;
-      break;
-    case 'ў':
-      out += 'ѹ' + psili;
-      break;
-    case 'Ј':
-      out += 'І' + psili + oxia;
-      break;
-    case 'ј':
-      out += 'і' + psili + oxia;
-      break;
-    case '¤':
-      out += '҂';
-      break;
-    case 'Ґ':
-      out += 'А' + psili;
-      break;
-    case 'ґ':
-      out += 'а' + psili;
-      break;
-    case '¦':
-      out += 'х' + titlo;
-      break;
-    case '§':
-      out += 'ч' + titlo;
-      break;
-    case 'Ё':
-      out += 'ѣ' + varia;
-      break;
-    case 'ё':
-      out += 'ѣ' + oxia;
-      break;
-    case '©':
-      out += 'с' + titlo;
-      break;
-    case '®':
-      out += 'Р' + d_titlo;
-      break;
-    case 'Ї':
-      out += 'І' + psili;
-      break;
-    case 'ї':
-      out += 'і' + psili;
-      break;
-    case '°':
-      out += kavyka;
-      break;
-    case '±':
-      out += 'ꙗ' + psili + varia;
-      break;
-    case 'і':
-      out += 'ї';
-      break;
-    case 'µ':
-      out += 'у';
-      break;
-    case '№':
-      out += 'а' + titlo;
-      break;
-    case 'У':
-      out += 'Ꙋ';
-      break;
-    case 'у':
-      out += 'ꙋ';
-      break;
-    case 'э':
-      out += 'ѣ';
-      break;
-    default:
-      out += char;
-      break;
-    }
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+
+    out += ucs_table[char] || char;
   }
 
   document.getElementById('outputText').value = out;
